@@ -33,15 +33,15 @@ const firebaseConfig = {
 
             }
             else{
-                console.log("no document found matching id")
+                alert("no document found matching id")
             }
         })
         .catch((error)=>{
-            console.log("Error getting document");
+            alert("Error getting document");
         })
     }
     else{
-        console.log("User Id not Found in Local storage")
+        alert("User Id not Found in Local storage")
     }
   })
 
