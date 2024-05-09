@@ -29,20 +29,25 @@
 </body>
 
 <script>
-    function generateUniqueUrl() {
-        return "https://www.google.com/?timestamp=" + Date.now();
-    }
-
-    var qrcode = new QRCode("qrcode",{text:generateUniqueUrl()}
-    );
-    function generateAndUpdateQRCode() {
-        console.log("generating qr code")
-        //var url = "https://www.google.com/"+"https://www.google.com/" + generateRandomString();
-        var url = generateUniqueUrl()
-        qrcode.clear();
-        qrcode.makeCode(url+ "&r=" + Math.random());
-    }
-    setInterval(generateAndUpdateQRCode, 10000);
+    function generateRandomString() {
+            return Math.random().toString(36).substring(2);
+        }
+        function generateGoogleFormsLink() {
+            return "https://docs.google.com/forms/d/e/1FAIpQLSewn90Y2HOgejj9pieR5E2UtT4bRMOFCJq0oFAX2wodjVXvCQ/viewform?timestamp=" + Date.now() + "&id=" + generateRandomString();
+        }
+ 
+        var qrcode = new QRCode("qrcode",{text:generateGoogleFormsLink()}
+        );
+        function generateAndUpdateQRCode() {
+            console.log("generating qr code")
+            //var url = "https://www.google.com/"+"https://www.google.com/" + generateRandomString();
+            var url = generateGoogleFormsLink()
+            qrcode.clear();
+            qrcode.makeCode(url);
+        }
+        setInterval(generateAndUpdateQRCode, 10000);
+        generateAndUpdateQRCode();
 </script>
+
 
 </html>
