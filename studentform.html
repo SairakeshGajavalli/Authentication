@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      label,
+      input {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      input[type="submit"] {
+        width: auto;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
+  </head>
+  <body>
+    <h1>Student Form</h1>
+    <form id="studentForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="SID">SID:</label>
+      <input type="text" id="SID" name="SID" required />
+
+      <label for="studentId">#919:</label>
+      <input type="number" id="studentId" name="#919" required />
+
+      <button id="submit">Submit</button>
+    </form>
+
+    <script>
+      const stuForm = document.getElementById("studentForm");
+      // Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyBPE6TbZykGf7Kui6fsR6-3W9w6uuzg0ms",
+        authDomain: "login-12d02.firebaseapp.com",
+        projectId: "login-12d02",
+        storageBucket: "login-12d02.appspot.com",
+        messagingSenderId: "894912184495",
+        appId: "1:894912184495:web:2a6fadb14356c49b24545a",
+        measurementId: "G-G9XVZSVL5Y",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      const database = firebase.database();
+
+      const ref = database.ref("student-details");
+
+      stuForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name");
+        const SID = document.getElementById("SID");
+        const studentId = document.getElementById("studentId");
+
+        ref.push({
+          name: name,
+          SID: SID,
+          studentId: studentId,
+        });
+
+        stuForm.reset();
+      });
+    </script>
+  </body>
+</html>
