@@ -9,42 +9,7 @@
     <link rel="stylesheet" href="./style2.css">
     <!-- <script  src="./script2.js"></script> -->
     <title>Patterns</title>
-    <style>
-        body{
-            /* padding:30px; */
-            background:linear-gradient(to right, #e2e2e2, #006747);
-        }
-        button{
-            color:#e2e2e2;
-            background-color:#006747;
-            padding:5px;
-            border-radius:5px;
-            font-size:1rem;
-            font-weight:bold;
-            border:none;
-        }
-        .card {
-          margin: 30px;
-          box-shadow: 0 20px 35px rgba(0, 0, 1, 0.9);
-        }
-
-      
-        button:hover{
-            text-decoration: underline;
-            color:#006747;
-            background-color:#e2e2e2;
-        }
-        button{
-            margin-left:15%;
-            font-size:20px;
-            padding:10px;
-        }
-        span{
-            font-weight:600;
-            font-size:22px;
-            /* color:black; */
-        }
-    </style>
+    <link rel="stylesheet" href="./coursestyle.css">
     <script type="module" src="./homepage.js"></script>
 </head>
 <body>
@@ -78,7 +43,7 @@
     <div class="row justify-content-around">
         <div class="col-md-4">
           <div class="card">
-            <iframe src="QR.html" title="QR Code"></iframe>
+            <iframe id="qrIframe" src="QR.html" title="QR Code"></iframe>
             <div class="card-body">
               <h5 class="card-title">Patterns</h5>
               <p class="card-text">Provides fast-paced coverage of data structures in Java (Java Collection
@@ -86,17 +51,62 @@
                 developing applications using various design patterns and a framework (e.g.: Spring framework). Design
                 principles of the user interfaces and user experience design. 
                 </p>
-                <a onclick="refreshPage()" class="btn btn-primary">Click here to get QR Code</a>
-                <script>
-                  function refreshPage() {
-                      location.reload();
-                  }
-                  </script>
+                <div>
+                    <input type="number" id="hoursInput" placeholder="Hours">
+                    <input type="number" id="minutesInput" placeholder="Minutes" style="margin-top: 2%;">
+                    <input type="number" id="secondsInput" placeholder="Seconds">
+                    <button onclick="startTimer()" class="btn btn-primary" style="margin: 0 0 6px 21px;">Start Timer</button>
+                  </div>
+                  <div id="countdown"></div>
             </div>
           </div>
         </div>
     </div>
 </div>  
     <br>
+
+    <script>
+        let timerId;
+
+        function startTimer() {
+            const hours = parseInt(document.getElementById("hoursInput").value) || 0;
+            const minutes = parseInt(document.getElementById("minutesInput").value) || 0;
+            const seconds = parseInt(document.getElementById("secondsInput").value) || 0;
+            const totalTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
+            if (totalTimeInSeconds > 0) {
+                // Hide the iframe after the specified time
+                timerId = setTimeout(hideQRCode, (totalTimeInSeconds + 1) * 1000); // Add 1 second to the timer
+                // Start countdown
+                startCountdown(totalTimeInSeconds); // Add 1 second to the countdown duration
+            } else {
+                alert("Please enter a valid time greater than 0 seconds.");
+            }
+        }
+
+        function hideQRCode() {
+            document.getElementById("qrIframe").classList.add("hide");
+            document.getElementById("countdown").innerHTML = "";
+        }
+
+        function startCountdown(duration) {
+            let timer = duration;
+            let countdownElement = document.getElementById("countdown");
+            let countdownInterval = setInterval(function() {
+                countdownElement.innerHTML = "Time remaining: " + formatTime(timer);
+                timer--;
+                if (timer < 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.innerHTML = "";
+                }
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+    </script>
 </body>
 </html>
