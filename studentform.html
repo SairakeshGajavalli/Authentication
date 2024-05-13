@@ -69,9 +69,9 @@
       stuForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        const name = document.getElementById("name");
-        const SID = document.getElementById("SID");
-        const studentId = document.getElementById("studentId");
+        const name = document.getElementById("name").value;
+        const SID = document.getElementById("SID").value;
+        const studentId = document.getElementById("studentId").value;
 
         ref.push({
           name: name,
