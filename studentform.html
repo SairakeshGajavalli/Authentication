@@ -59,7 +59,20 @@
         <label for="studentId">#919:</label>
         <input type="number" id="studentId" name="#919" required />
 
-        <!-- <button id="submit">Submit</button> -->
+        <label for="course">Course:</label>
+        <select id="course" name="course">
+            <option value="Course 1">Android</option>
+            <option value="Course 2">Patterns</option>
+            <option value="Course 3">GDP-1</option>
+            <option value="Course 1">Java</option>
+            <option value="Course 2">iOS</option>
+            <option value="Course 3">Web Applications</option>
+            <option value="Course 3">ADB</option>
+        </select>
+
+        <label for="timings">Course Timings:</label>
+        <input type="time" id="timings" name="timings" required />
+
         <input class="btn btn-primary" id="submit" type="submit" value="Submit">
     </form>
   </div>
@@ -88,13 +101,17 @@
             const name = document.getElementById("name").value;
             const SID = document.getElementById("SID").value;
             const studentId = document.getElementById("studentId").value;
-            const timestamp = new Date().toISOString(); // Get current timestamp
+            const course = document.getElementById("course").value;
+            const timings = document.getElementById("timings").value;
+            const timestamp = new Date().toISOString();
 
             ref.push({
                 name: name,
                 SID: SID,
                 studentId: studentId,
-                timestamp: timestamp, // Include timestamp
+                course: course,
+                timings: timings,
+                timestamp: timestamp,
             });
 
             stuForm.reset();
