@@ -91,12 +91,12 @@
             const courseTime = new Date(data.timestamp);
             const currentTime = new Date();
             const diffMinutes = Math.round((currentTime - courseTime) / (1000 * 60));
-            if (diffMinutes > 10) {
-                return "Absent";
+            if (diffMinutes < 5) {
+                return "Present";
             } else if (diffMinutes > 5) {
                 return "Late";
             } else {
-                return "Present";
+                return "Absent";
             }
         }
     </script>
