@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Generator</title>
-
     <style>
       h1,
       h3 {
@@ -24,29 +23,25 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   </head>
-
   <body>
     <div id="qrcode"></div>
   </body>
-
   <script>
     function generateRandomString() {
       return Math.random().toString(36).substring(2);
     }
-    function generateGoogleFormsLink() {
+    function generateFormLink() {
       return (
-        "https://docs.google.com/forms/d/e/1FAIpQLSewn90Y2HOgejj9pieR5E2UtT4bRMOFCJq0oFAX2wodjVXvCQ/viewform?timestamp=" +
+        "studentsform.html?timestamp=" +
         Date.now() +
         "&id=" +
         generateRandomString()
       );
     }
-
-    var qrcode = new QRCode("qrcode", { text: generateGoogleFormsLink() });
+    var qrcode = new QRCode("qrcode", { text: generateFormLink() });
     function generateAndUpdateQRCode() {
       console.log("generating qr code");
-      //var url = "https://www.google.com/"+"https://www.google.com/" + generateRandomString();
-      var url = generateGoogleFormsLink();
+      var url = generateFormLink();
       qrcode.clear();
       qrcode.makeCode(url);
     }
