@@ -95,8 +95,8 @@
       });
 
       function getStatus(data) {
-        const courseTime = new Date(data.timestamp);
-        const currentTime = new Date();
+        const courseTime = new Date(data.timings);
+        const currentTime = new Date(data.timestamp);
         const diffMinutes = Math.abs(
           Math.round((currentTime - courseTime) / (1000 * 60))
         );
