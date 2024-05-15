@@ -29,7 +29,7 @@ const db = getFirestore();
 onAuthStateChanged(auth, (user) => {
   const loggedInUserId = localStorage.getItem("loggedInUserId");
   if (loggedInUserId) {
-    console.log(user);
+    // console.log(user);
     const docRef = doc(db, "users", loggedInUserId);
     getDoc(docRef)
       .then((docSnap) => {

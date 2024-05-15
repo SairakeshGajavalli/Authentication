@@ -38,7 +38,7 @@
 
     var qrcode = new QRCode("qrcode", { text: generateFormLink() });
     function generateAndUpdateQRCode() {
-      console.log("generating qr code");
+      // console.log("generating qr code");
       var url = generateFormLink();
       qrcode.clear();
       qrcode.makeCode(url);
