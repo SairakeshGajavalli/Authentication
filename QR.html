@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Generator</title>
     <style>
-      h1,
-      h3 {
+      h1, h3 {
         color: green;
       }
-      body,
-      header {
+      body, header {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -30,14 +28,14 @@
     function generateRandomString() {
       return Math.random().toString(36).substring(2);
     }
+
     function generateFormLink() {
+      const baseUrl = window.location.origin + '/studentform.html';
       return (
-        "studentsform.html?timestamp=" +
-        Date.now() +
-        "&id=" +
-        generateRandomString()
+        baseUrl
       );
     }
+
     var qrcode = new QRCode("qrcode", { text: generateFormLink() });
     function generateAndUpdateQRCode() {
       console.log("generating qr code");
@@ -45,6 +43,7 @@
       qrcode.clear();
       qrcode.makeCode(url);
     }
+
     setInterval(generateAndUpdateQRCode, 10000);
     generateAndUpdateQRCode();
   </script>
