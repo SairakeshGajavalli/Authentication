@@ -155,18 +155,18 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Edit Student Details</h2>
-      <input type="text" id="editName" placeholder="Name" /><br /><br />
-      <input type="text" id="editSID" placeholder="SID" /><br /><br />
-      <input type="text" id="editStudentId" placeholder="Student ID" /><br /><br />
-      <input type="text" id="editCourse" placeholder="Course" /><br /><br />
-      <input type="text" id="editSection" placeholder="Section" /><br /><br />
-      <input type="text" id="editTimings" placeholder="Timings" /><br /><br />
-      <select id="editStatus">
+      <input type="text" class="input-group-text" style="text-align: start;" id="editName" placeholder="Name" /><br />
+      <input type="text" class="input-group-text" style="text-align: start;" id="editSID" placeholder="SID" /><br />
+      <input type="text" class="input-group-text" style="text-align: start;" id="editStudentId" placeholder="Student ID" /><br />
+      <input type="text" class="input-group-text" style="text-align: start;" id="editCourse" placeholder="Course" /><br />
+      <input type="text" class="input-group-text" style="text-align: start;" id="editSection" placeholder="Section" /><br />
+      <input type="text" class="input-group-text" style="text-align: start;" id="editTimings" placeholder="Timings" /><br />
+      <select id="editStatus" class="btn btn-secondary dropdown-toggle">
         <option value="Present">Present</option>
         <option value="Late">Late</option>
         <option value="Absent">Absent</option>
-      </select><br /><br />
-      <button onclick="updateData()">Save Changes</button>
+      </select><br />
+      <button onclick="updateData()" class="btn btn-outline-success">Save Changes</button>
     </div>
   </div>
 
