@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attendance form</title>
+    <title>Attendance Form</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -20,6 +20,9 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
 
     <style>
       body {
@@ -61,19 +64,40 @@
         border-radius: 10px;
         box-shadow: 0 20px 35px rgba(0, 0, 1, 0.9);
       }
+
+      .error-message {
+        color: red;
+        text-align: center;
+      }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
   </head>
   <body>
     <div class="container">
-      <h1>Student Form</h1>
-      <form id="studentForm">
+      <h1>Student Login and Attendance</h1>
+      <div id="error-message" class="error-message"></div>
+      <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+
+        <label for="sid">SID:</label>
+        <input type="text" id="sid" name="sid" required />
+
+        <input
+          class="btn btn-primary"
+          type="submit"
+          value="Login and Record Attendance"
+        />
+      </form>
+
+      <form id="studentForm" style="display: none;">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required />
 
         <label for="SID">SID:</label>
-        <input type="text" id="SID" name="SID" required />
+        <input type="text" id="SID" name="SID" required readonly />
 
         <label for="studentId">#919:</label>
         <input type="number" id="studentId" name="#919" required />
@@ -99,12 +123,30 @@
           class="btn btn-primary"
           id="submit"
           type="submit"
-          value="Submit"
+          value="Submit Attendance"
         />
       </form>
     </div>
 
     <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBPE6TbZykGf7Kui6fsR6-3W9w6uuzg0ms",
+        authDomain: "login-12d02.firebaseapp.com",
+        databaseURL: "https://login-12d02-default-rtdb.firebaseio.com",
+        projectId: "login-12d02",
+        storageBucket: "login-12d02.appspot.com",
+        messagingSenderId: "894912184495",
+        appId: "1:894912184495:web:2a6fadb14356c49b24545a",
+        measurementId: "G-G9XVZSVL5Y",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      const auth = firebase.auth();
+      const database = firebase.database();
+      const loginForm = document.getElementById('loginForm');
+      const studentForm = document.getElementById('studentForm');
+      const errorMessage = document.getElementById('error-message');
       const courseDropdown = document.getElementById("course");
       const sectionDropdown = document.getElementById("section");
       const timingsDropdown = document.getElementById("timings");
@@ -146,24 +188,30 @@
         timingsDropdown.appendChild(timingsOption);
       }
 
-      const stuForm = document.getElementById("studentForm");
-      const firebaseConfig = {
-        apiKey: "AIzaSyBPE6TbZykGf7Kui6fsR6-3W9w6uuzg0ms",
-        authDomain: "login-12d02.firebaseapp.com",
-        databaseURL: "https://login-12d02-default-rtdb.firebaseio.com",
-        projectId: "login-12d02",
-        storageBucket: "login-12d02.appspot.com",
-        messagingSenderId: "894912184495",
-        appId: "1:894912184495:web:2a6fadb14356c49b24545a",
-        measurementId: "G-G9XVZSVL5Y",
-      };
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-      firebase.initializeApp(firebaseConfig);
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const loginSID = document.getElementById('sid').value;
 
-      const database = firebase.database();
-      const ref = database.ref("student-details");
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            // Hide login form and show student form
+            loginForm.style.display = 'none';
+            studentForm.style.display = 'block';
 
-      stuForm.addEventListener("submit", (e) => {
+            // Automatically fill name and SID if possible (assuming these are stored in Firebase Auth)
+            const user = userCredential.user;
+            document.getElementById('name').value = user.displayName || '';
+            document.getElementById('SID').value = loginSID;
+          })
+          .catch((error) => {
+            errorMessage.textContent = error.message;
+          });
+      });
+
+      studentForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
         const name = document.getElementById("name").value;
@@ -174,6 +222,7 @@
         const timings = timingsDropdown.value;
         const timestamp = new Date().toISOString();
 
+        const ref = database.ref("student-details");
         ref.push({
           name: name,
           SID: SID,
@@ -185,8 +234,7 @@
         });
 
         alert("Your attendance has been recorded.");
-
-        stuForm.reset();
+        studentForm.reset();
       });
     </script>
   </body>
