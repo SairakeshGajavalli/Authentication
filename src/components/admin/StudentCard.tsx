@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Mail, Pencil, Trash2, Plus } from 'lucide-react';
+import { BookOpen, Mail, Pencil, Trash2, Plus, Clock } from 'lucide-react';
 import type { Student, Course } from '../../types';
 import { AssignedCoursesList } from './AssignedCoursesList';
 
@@ -10,6 +10,7 @@ interface StudentCardProps {
   onDelete: (id: string) => void;
   onAssignCourse: (student: Student) => void;
   onUnassignCourse: (studentId: string, courseId: string) => void;
+  onViewAttendance: (student: Student) => void;
 }
 
 export function StudentCard({ 
@@ -19,6 +20,7 @@ export function StudentCard({
   onDelete, 
   onAssignCourse,
   onUnassignCourse,
+  onViewAttendance,
 }: StudentCardProps) {
   const assignedCourses = courses.filter(course => student.courses.includes(course.id));
 
@@ -66,13 +68,23 @@ export function StudentCard({
         </div>
       </div>
 
-      <button
-        onClick={() => onAssignCourse(student)}
-        className="w-full flex items-center justify-center px-4 py-2 border border-blue-600 rounded-md text-sm font-medium text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-      >
-        <Plus className="w-4 h-4 mr-2" />
-        Assign Course
-      </button>
+      <div className="space-y-2">
+        <button
+          onClick={() => onViewAttendance(student)}
+          className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <Clock className="w-4 h-4 mr-2" />
+          View Attendance
+        </button>
+
+        <button
+          onClick={() => onAssignCourse(student)}
+          className="w-full flex items-center justify-center px-4 py-2 border border-blue-600 rounded-md text-sm font-medium text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Assign Course
+        </button>
+      </div>
     </div>
   );
 }

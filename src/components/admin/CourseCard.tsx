@@ -1,15 +1,17 @@
 import React from 'react';
-import { BookOpen, GraduationCap, Pencil, Trash2 } from 'lucide-react';
-import type { Course } from '../../types';
+import { BookOpen, GraduationCap, Pencil, Trash2, Users } from 'lucide-react';
+import type { Course, Professor } from '../../types';
 
 interface CourseCardProps {
   course: Course;
   onEdit: (course: Course) => void;
   onDelete: (id: string) => void;
-  professorName?: string;
+  professors: Professor[];
 }
 
-export function CourseCard({ course, onEdit, onDelete, professorName }: CourseCardProps) {
+export function CourseCard({ course, onEdit, onDelete, professors }: CourseCardProps) {
+  const assignedProfessors = professors.filter(p => p.courses.includes(course.id));
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
       <div className="flex justify-between items-start mb-4">
@@ -35,13 +37,38 @@ export function CourseCard({ course, onEdit, onDelete, professorName }: CourseCa
         </div>
       </div>
 
-      <div className="space-y-2">
-        <div className="flex items-center text-gray-600">
-          <GraduationCap className="w-4 h-4 mr-2" />
-          <span className="text-sm">
-            {professorName || 'No professor assigned'}
-          </span>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between text-gray-600">
+          <div className="flex items-center">
+            <Users className="w-4 h-4 mr-2" />
+            <span className="text-sm">
+              {course.students.length} students enrolled
+            </span>
+          </div>
+          <div className="flex items-center">
+            <GraduationCap className="w-4 h-4 mr-2" />
+            <span className="text-sm">
+              {assignedProfessors.length} {assignedProfessors.length === 1 ? 'professor' : 'professors'}
+            </span>
+          </div>
         </div>
+
+        {assignedProfessors.length > 0 && (
+          <div className="border-t pt-4">
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Assigned Professors</h4>
+            <div className="space-y-2">
+              {assignedProfessors.map(professor => (
+                <div key={professor.id} className="flex items-start space-x-3 text-sm">
+                  <GraduationCap className="w-4 h-4 text-gray-400 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-gray-900">{professor.name}</p>
+                    <p className="text-gray-500 text-xs">{professor.department}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

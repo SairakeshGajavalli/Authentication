@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Users, Upload } from 'lucide-react';
+import { Plus, Users } from 'lucide-react';
 import { useStudentStore } from '../../store/studentStore';
 import { useCourseStore } from '../../store/courseStore';
 import { StudentForm } from '../../components/admin/StudentForm';
 import { StudentCard } from '../../components/admin/StudentCard';
 import { AssignCourseModal } from '../../components/admin/AssignCourseModal';
+import { StudentAttendanceModal } from '../../components/admin/StudentAttendanceModal';
 import type { Student } from '../../types';
 
 export function StudentsPage() {
@@ -13,6 +14,7 @@ export function StudentsPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [assigningStudent, setAssigningStudent] = useState<Student | null>(null);
+  const [viewingAttendance, setViewingAttendance] = useState<Student | null>(null);
 
   useEffect(() => {
     fetchStudents();
@@ -72,6 +74,10 @@ export function StudentsPage() {
     }
   };
 
+  const handleViewAttendance = (student: Student) => {
+    setViewingAttendance(student);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -108,6 +114,7 @@ export function StudentsPage() {
             onDelete={deleteStudent}
             onAssignCourse={handleAssignCourse}
             onUnassignCourse={handleUnassignCourse}
+            onViewAttendance={handleViewAttendance}
           />
         ))}
       </div>
@@ -135,6 +142,14 @@ export function StudentsPage() {
           availableCourses={courses.filter(
             course => !assigningStudent.courses.includes(course.id)
           )}
+        />
+      )}
+
+      {viewingAttendance && (
+        <StudentAttendanceModal
+          studentId={viewingAttendance.id}
+          studentName={viewingAttendance.name}
+          onClose={() => setViewingAttendance(null)}
         />
       )}
     </div>

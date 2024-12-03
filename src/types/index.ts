@@ -29,6 +29,8 @@ export interface Course {
   students: string[];
 }
 
+export type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused';
+
 export interface AttendanceRecord {
   id: string;
   courseId: string;
@@ -36,6 +38,12 @@ export interface AttendanceRecord {
   studentId: string;
   studentName: string;
   timestamp: Date;
-  status: 'present' | 'absent';
+  status: AttendanceStatus;
   comment?: string;
+}
+
+export interface StudentAttendance extends Student {
+  attendanceCount: number;
+  lastAttendance?: Date;
+  attendanceRecords: AttendanceRecord[];
 }

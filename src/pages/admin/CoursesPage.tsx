@@ -40,11 +40,6 @@ export function CoursesPage() {
     setIsFormOpen(true);
   };
 
-  const getProfessorName = (professorId: string) => {
-    const professor = professors.find((p) => p.courses.includes(professorId));
-    return professor?.name;
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -66,9 +61,9 @@ export function CoursesPage() {
           <CourseCard
             key={course.id}
             course={course}
+            professors={professors}
             onEdit={handleEdit}
             onDelete={deleteCourse}
-            professorName={getProfessorName(course.id)}
           />
         ))}
       </div>
