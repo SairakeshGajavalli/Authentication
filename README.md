@@ -2,6 +2,66 @@
 
 A modern web application for managing student attendance using QR codes. Built with React, TypeScript, and Firebase.
 
+## Use Case Diagram
+
+```mermaid
+graph TB
+    subgraph "QR Attendance System"
+        Admin["👤 Admin"]
+        Professor["👨‍🏫 Professor"]
+        Student["👨‍🎓 Student"]
+
+        subgraph "Admin Use Cases"
+            ManageProfs["Manage Professors"]
+            ManageCourses["Manage Courses"]
+            ManageStudents["Manage Students"]
+            ViewStats["View System Statistics"]
+            AssignCourses["Assign Courses"]
+            EditAttendance["Edit Attendance Records"]
+        end
+
+        subgraph "Professor Use Cases"
+            GenQR["Generate QR Code"]
+            ViewStudents["View Enrolled Students"]
+            TrackAttendance["Track Attendance"]
+            ViewAnalytics["View Analytics"]
+            ManageStatus["Manage Attendance Status"]
+        end
+
+        subgraph "Student Use Cases"
+            ScanQR["Scan QR Code"]
+            ViewCourses["View Enrolled Courses"]
+            CheckHistory["Check Attendance History"]
+            ViewStats2["View Personal Statistics"]
+        end
+
+        %% Admin connections
+        Admin --> ManageProfs
+        Admin --> ManageCourses
+        Admin --> ManageStudents
+        Admin --> ViewStats
+        Admin --> AssignCourses
+        Admin --> EditAttendance
+
+        %% Professor connections
+        Professor --> GenQR
+        Professor --> ViewStudents
+        Professor --> TrackAttendance
+        Professor --> ViewAnalytics
+        Professor --> ManageStatus
+
+        %% Student connections
+        Student --> ScanQR
+        Student --> ViewCourses
+        Student --> CheckHistory
+        Student --> ViewStats2
+    end
+
+    style Admin fill:#f9f,stroke:#333,stroke-width:2px
+    style Professor fill:#bbf,stroke:#333,stroke-width:2px
+    style Student fill:#bfb,stroke:#333,stroke-width:2px
+```
+
 ## Features
 
 ### For Administrators
@@ -79,23 +139,6 @@ src/
 - Student performance monitoring
 - Visual representations using charts
 
-## Getting Started
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up Firebase:
-   - Create a Firebase project
-   - Enable Authentication and Firestore
-   - Update Firebase configuration in `src/lib/firebase.ts`
-
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
 ## Deployment
 
 The application can be deployed to various platforms:
@@ -117,4 +160,4 @@ The application can be deployed to various platforms:
 
 <br>
 
-[Link on Netlify](https://attendance-canva.netlify.app/login)
+[Live link](https://attendance-canva.netlify.app/login)
